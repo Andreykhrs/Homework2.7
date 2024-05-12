@@ -14,33 +14,33 @@ public class EmployeeService {
         this.employeeMap = employeeMap;
     }
 
-    public Employee add(String firstName, String lastName)
+    public Employee add(String firstName, String lastName, int salary, int department)
             throws EmployeeStorageIsFullException, EmployeeAlreadyAddedException {
-        Employee employee = new Employee(firstName, lastName);
+        Employee employee = new Employee(firstName, lastName, salary,department);
         if (employeeMap.size() == maxNumberOfEmployees) {
             throw new EmployeeStorageIsFullException();
         }
-        if (employeeMap.containsKey(employee.getKey())) {
+        if (employeeMap.containsKey(employee.buildKey())) {
             throw new EmployeeAlreadyAddedException();
         }
-        employeeMap.put(employee.getKey(), employee);
+        employeeMap.put(employee.buildKey(), employee);
         return employee;
     }
 
-    public Employee remove(String firstName, String lastName) throws EmployeeNotFoundException {
-        Employee employee = new Employee(firstName, lastName);
-        if (!employeeMap.containsKey(employee.getKey())) {
+    public Employee remove(String firstName, String lastName, int salary, int department) throws EmployeeNotFoundException {
+        Employee employee = new Employee(firstName, lastName, salary, department);
+        if (!employeeMap.containsKey(employee.buildKey())) {
             throw new EmployeeNotFoundException();
         }
-        return employeeMap.remove(employee.getKey());
+        return employeeMap.remove(employee.buildKey());
     }
 
-    public Employee find(String firstName, String lastName) throws EmployeeNotFoundException {
-        Employee employee = new Employee(firstName, lastName);
-        if (!employeeMap.containsKey(employee.getKey())) {
+    public Employee find(String firstName, String lastName, int salary, int department) throws EmployeeNotFoundException {
+        Employee employee = new Employee(firstName, lastName, salary, department);
+        if (!employeeMap.containsKey(employee.buildKey())) {
             throw new EmployeeNotFoundException();
         }
-        return employeeMap.get(employee.getKey());
+        return employeeMap.get(employee.buildKey());
     }
 
     public Collection<Employee> print() {
