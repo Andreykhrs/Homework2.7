@@ -1,10 +1,11 @@
-package pro.sky.employeeBookmap;
+package pro.sky.employeeBookmap.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import pro.sky.employeeBookmap.model.Employee;
+import pro.sky.employeeBookmap.service.DepartmentService;
 
 
 import java.util.Collection;
@@ -22,17 +23,17 @@ public class DepartmentController {
     }
 
     @GetMapping("max-salary")
-    public  Employee findEmployeeWithMaxSalary(@RequestParam(required = false) int department) {
+    public Employee findEmployeeWithMaxSalary(@RequestParam int department) {
         return departmentService.findEmployeeWithMaxSalary(department);
     }
 
     @GetMapping("min-salary")
-    public  Employee findEmployeeWithMinSalary(@RequestParam(required = false) int department) {
+    public  Employee findEmployeeWithMinSalary(@RequestParam int department) {
         return departmentService.findEmployeeWithMinSalary(department);
     }
 
     @GetMapping(value = "all", params = {"department"})
-    public Collection<Employee> findEmployeesByDepartment(@RequestParam(required = false) int department){
+    public Collection<Employee> findEmployeesByDepartment(@RequestParam int department){
         return departmentService.findEmployeesByDepartment(department);
     }
     @GetMapping("all")
