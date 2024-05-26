@@ -2,6 +2,7 @@ package pro.sky.employeeBookmap.service;
 
 import org.springframework.stereotype.Service;
 
+import org.springframework.util.StringUtils;
 import pro.sky.employeeBookmap.exception.EmployeeAlreadyAddedException;
 import pro.sky.employeeBookmap.exception.EmployeeNotFoundException;
 import pro.sky.employeeBookmap.exception.EmployeeStorageIsFullException;
@@ -14,15 +15,25 @@ import java.util.Map;
 @Service
 public class EmployeeService {
     private Map<String, Employee> employeeMap;
-    private final int maxNumberOfEmployees = 3;
 
-    public EmployeeService(Map<String, Employee> employeeMap) {
+    private final ValidationService validationService;
+
+
+
+
+
+    public EmployeeService(Map<String, Employee> employeeMap, ValidationService validationService) {
         this.employeeMap = employeeMap;
+        this.validationService = validationService;
     }
 
     public Employee add(String firstName, String lastName, int salary, int department)
             throws EmployeeStorageIsFullException, EmployeeAlreadyAddedException {
-        Employee employee = new Employee(firstName, lastName, salary,department);
+        firstName = validationService.checkName(firstName);
+        lastName = validationService.checkName(lastName);
+
+        Employee employee = new Employee(firstName, lastName, salary, department);
+        int maxNumberOfEmployees = 3;
         if (employeeMap.size() == maxNumberOfEmployees) {
             throw new EmployeeStorageIsFullException();
         }
